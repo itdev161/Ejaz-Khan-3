@@ -11,6 +11,7 @@ import EditPost from './components/Post/EditPost';
 
 class App extends React.Component {
   state = {
+    data: null,
     posts: [],
     post: null,
     token: null,
@@ -18,6 +19,15 @@ class App extends React.Component {
   };
 
   componentDidMount() {
+    axios.get('http://localhost:5000')
+    .then((Response)=>
+    this.setState({
+data: response.data
+ })
+ })
+ .catch(error) => {
+   console.error('Error fetching data: ${error}');
+ })
     this.authenticateUser();
   }
 
@@ -35,8 +45,7 @@ class App extends React.Component {
           'x-auth-token': token
         }
       };
-      axios
-        .get('/api/auth', config)
+      axios.get('http://localhost:5000/api/auth', config)
         .then(response => {
           localStorage.setItem('user', response.data.name);
           this.setState(
@@ -158,9 +167,13 @@ class App extends React.Component {
                 <Link to="/">Home</Link>
               </li>
               <li>
+                link to ="/register">Register</Link>
+              </li>
+              <li>
                 {user ? (
-                  <Link to="/new-post">New Post</Link>
-                ) : (
+                  <Link to="" onClick={this.logOut}>Log out</Link> 
+                  <Link to ="/login">log in</Link>
+                )}
                   <Link to="/register">Register</Link>
                 )}
               </li>
@@ -181,6 +194,7 @@ class App extends React.Component {
                 {user ? (
                   <React.Fragment>
                     <div>Hello {user}!</div>
+                    <div>{data}</div>
                     <PostList
                       posts={posts}
                       clickPost={this.viewPost}

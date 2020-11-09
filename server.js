@@ -134,10 +134,10 @@ app.post(
   }
 );
 
-const returnToken = (user, res) => {
-  const payload = {
-    user: {
-      id: user.id
+const returnToken =  (user, res) => {
+  const payload =  {
+    user:  {
+      id:  user.id
     }
   };
 
